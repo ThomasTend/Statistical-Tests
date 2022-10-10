@@ -8,13 +8,13 @@ population_mean = 172
 x = st.norm.rvs(loc=population_mean, scale=sigma, size=n)
 # Test if mean height is close to our choice of mu_0 using a Z-test with confidence level 95%
 mu_0 = 160
-observed_z_score = (x.mean()-mu_0) / x.std()
+observed_z_score = (x.mean()-mu_0) / (x.std() / n**0.5)
 theoretical_z_score = st.norm.ppf(0.975)
 print('observed_z_score = ', observed_z_score)
 print('theoretical_z_score = ', theoretical_z_score)
 
 """
-observed_z_score =  2.685386192520411
+observed_z_score =  81.30897355983075
 theoretical_z_score =  1.959963984540054
 """
 
@@ -73,18 +73,16 @@ print(two_sample_conf_int)
 
 n_X=1000
 p_X=0.09
-x = st.bernoulli.rvs(p_X, size=n_X)
 n_Y=900
 p_Y=0.081
-y = st.bernoulli.rvs(p_Y, size=n_Y)
-d = x.mean()-y.mean()
+d = p_X-p_Y
 sigma_d = (p_X*(1-p_X)/n_X+p_Y*(1-p_Y)/n_Y)**0.5
 two_sample_prop_obs_z_score = d/sigma_d
 theoretical_z_score = st.norm.ppf(0.975)
 print(two_sample_prop_obs_z_score)
 print(theoretical_z_score)
 """
-3.074381344601097
+0.701478560317433
 1.959963984540054
 """
 
@@ -92,5 +90,5 @@ print(theoretical_z_score)
 two_sample_prop_conf_int = (d-st.norm.ppf(0.975)*sigma_d, d+st.norm.ppf(0.975)*sigma_d)
 print(two_sample_prop_conf_int)
 """
-(0.01429802250265598, 0.06459086638623289)
+(-0.01614642194178846, 0.03414642194178845)  
 """
